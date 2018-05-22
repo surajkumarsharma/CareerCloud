@@ -18,17 +18,17 @@ namespace CareerCloud.Pocos
         public decimal CurrentSalary { get; set; }
         [Column("Current_Rate")]
         public decimal CurrentRate { get; set; }
-        public char[] Currency { get; set; }
+        public string Currency { get; set; }
         [Key]
-        public Guid CountryCode { get; set; }
+        public string CountryCode { get; set; }
         [Column("State_Province_Code")]
-        public char[] StateProvinceCode { get; set; }
+        public string StateProvinceCode { get; set; }
         [Column("Street_Address")]
         public string StreetAddress { get; set; }
         [Column("City_Town")]
         public string CityTown { get; set; }
         [Column("Zip_Postal_Code")]
-        public char[] ZipPostalCode { get; set; }
+        public string ZipPostalCode { get; set; }
         [Column("Time_Stamp")]
         public byte[] TimeStamp { get; set; }
 

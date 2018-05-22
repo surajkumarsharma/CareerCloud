@@ -18,11 +18,11 @@ namespace CareerCloud.Pocos
         public Guid Applicant { get; set; }
 
         [Column("Company_Name")]
-        public string Company_Name { get; set; }
+        public string CompanyName { get; set; }
 
         [Key]
         [Column("Country_Code")]
-        public Guid CountryCode { get; set; }
+        public string CountryCode { get; set; }
 
         public string Location { get; set; }
 
@@ -39,7 +39,7 @@ namespace CareerCloud.Pocos
         public int StartYear { get; set; }
 
         [Column("End_Month")]
-        public Int16 EndMonth { get; set; }
+        public int EndMonth { get; set; }
 
         [Column("End_Year")]
         public int EndYear { get; set; }

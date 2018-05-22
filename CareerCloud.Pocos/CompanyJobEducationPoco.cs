@@ -8,25 +8,20 @@ using System.Threading.Tasks;
 
 namespace CareerCloud.Pocos
 {
-    [Table("Company_Descriptions")]
-    public class CompanyDescriptionPoco
+    [Table("Company_Job_Educations")]
+    public class CompanyJobEducationPoco
     {
         [Key]
         public Guid Id { get; set; }
-        
-        public Guid Company{get; set;}
 
-        public string LanguageId { get; set; }
-        
-        [Column("Company_Name")]
-        public string CompanyName { get; set; }
+        public Guid Job { get; set; }
 
-        [Column("Company_Description")]
-        public string CompanyDescription { get; set; }
+        public string Major { get; set; }
+
+        public Int16 Importance { get; set; }
 
         [Column("Time_Stamp")]
         public byte[] TimeStamp { get; set; }
-
 
     }
 }

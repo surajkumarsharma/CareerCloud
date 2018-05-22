@@ -19,6 +19,6 @@ namespace CareerCloud.Pocos
         public string Resume { get; set; }
 
         [Column ("Last_Updated")]
-        public DateTime? Last_Updated { get; set; }
+        public DateTime? LastUpdated { get; set; }
     }
 }
