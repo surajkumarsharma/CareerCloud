@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace CareerCloud.Pocos
 {
-    [Table("Applicant_Profile")]
-    public class ApplicantProfilePoco
+    [Table("Applicant_Profiles")]
+    public class ApplicantProfilePoco:IPoco
     {
         [Key]
         public Guid Id { get; set; }
@@ -18,17 +18,18 @@ namespace CareerCloud.Pocos
         public decimal? CurrentSalary { get; set; }
         [Column("Current_Rate")]
         public decimal?  CurrentRate { get; set; }
+
         public string Currency { get; set; }
-        [Key]
-        public string CountryCode { get; set; }
+        [Column("Country_Code")]
+        public string Country { get; set; }
         [Column("State_Province_Code")]
-        public string StateProvinceCode { get; set; }
+        public string Province { get; set; }
         [Column("Street_Address")]
-        public string StreetAddress { get; set; }
+        public string Street { get; set; }
         [Column("City_Town")]
-        public string CityTown { get; set; }
+        public string City { get; set; }
         [Column("Zip_Postal_Code")]
-        public string ZipPostalCode { get; set; }
+        public string PostalCode { get; set; }
         [Column("Time_Stamp")]
         public byte[] TimeStamp { get; set; }
 

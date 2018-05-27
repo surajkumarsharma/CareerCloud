@@ -10,7 +10,7 @@ namespace CareerCloud.Pocos
 {
     [Table("Applicant_Work_History")]
 
-    public class ApplicantWorkHistoryPoco
+    public class ApplicantWorkHistoryPoco : IPoco
     {
         [Key]
         public Guid Id { get; set; }
@@ -33,13 +33,13 @@ namespace CareerCloud.Pocos
         public string JobDescription { get; set; }
 
         [Column("Start_Month")]
-        public Int16 StartMonth { get; set; }
+        public short StartMonth { get; set; }
 
         [Column("Start_Year")]
         public int StartYear { get; set; }
 
         [Column("End_Month")]
-        public int EndMonth { get; set; }
+        public short EndMonth { get; set; }
 
         [Column("End_Year")]
         public int EndYear { get; set; }

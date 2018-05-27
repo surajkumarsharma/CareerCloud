@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace CareerCloud.Pocos
 {
 [Table("Security_Roles")]
-    public class SecurityRolePoco
+    public class SecurityRolePoco : IPoco
     {
         [Key]
         public Guid Id { get; set; }
@@ -17,7 +17,7 @@ namespace CareerCloud.Pocos
         public string Role { get; set; }
 
         [Column("Is_Inactive")]
-        public Boolean IsInactive { get; set; }
+        public bool IsInactive { get; set; }
 
     }
 }

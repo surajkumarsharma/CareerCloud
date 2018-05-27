@@ -10,7 +10,7 @@ namespace CareerCloud.Pocos
 {
     [Table("Security_Logins_Log")]
 
-    public class SecurityLoginLogPoco
+    public class SecurityLoginsLogPoco : IPoco
     {
         [Key]
         public Guid Id { get; set; }
@@ -24,7 +24,7 @@ namespace CareerCloud.Pocos
         public DateTime LogonDate { get; set; }
 
         [Column("Is_Succesful")]
-        public Boolean IsSuccesful { get; set; }
+        public bool IsSuccesful { get; set; }
 
 
 
