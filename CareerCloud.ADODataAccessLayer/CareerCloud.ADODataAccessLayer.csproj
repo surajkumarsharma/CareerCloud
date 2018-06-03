@@ -45,6 +45,14 @@
     <Compile Include="ApplicantProfileRepository.cs" />
     <Compile Include="ApplicantResumeRepository.cs" />
     <Compile Include="ApplicantSkillRepository.cs" />
+    <Compile Include="ApplicantWorkHistoryRepository.cs" />
+    <Compile Include="CompanyDescriptionRepository.cs" />
+    <Compile Include="CompanyJobDescriptionRepository.cs" />
+    <Compile Include="CompanyJobEducationRepository.cs" />
+    <Compile Include="CompanyJobRepository.cs" />
+    <Compile Include="CompanyJobSkillRepository.cs" />
+    <Compile Include="CompanyLocationRepository.cs" />
+    <Compile Include="CompanyProfileRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
