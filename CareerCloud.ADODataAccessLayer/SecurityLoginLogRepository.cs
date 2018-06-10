@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace CareerCloud.ADODataAccessLayer
 {
-    class SecurityLoginLogRepository : IDataRepository<SecurityLoginLogPoco>
+    class SecurityLoginLogRepository : IDataRepository<SecurityLoginLogRepository>
     {
-        public void Add(params SecurityLoginLogPoco[] items)
+        public void Add(params SecurityLoginLogRepository[] items)
         {
             throw new NotImplementedException();
         }
@@ -20,27 +20,27 @@ namespace CareerCloud.ADODataAccessLayer
             throw new NotImplementedException();
         }
 
-        public IList<SecurityLoginLogPoco> GetAll(params Expression<Func<SecurityLoginLogPoco, object>>[] navigationProperties)
+        public IList<SecurityLoginLogRepository> GetAll(params Expression<Func<SecurityLoginLogRepository, object>>[] navigationProperties)
         {
             throw new NotImplementedException();
         }
 
-        public IList<SecurityLoginLogPoco> GetList(Expression<Func<SecurityLoginLogPoco, bool>> where, params Expression<Func<SecurityLoginLogPoco, object>>[] navigationProperties)
+        public IList<SecurityLoginLogRepository> GetList(Expression<Func<SecurityLoginLogRepository, bool>> where, params Expression<Func<SecurityLoginLogRepository, object>>[] navigationProperties)
         {
             throw new NotImplementedException();
         }
 
-        public SecurityLoginLogPoco GetSingle(Expression<Func<SecurityLoginLogPoco, bool>> where, params Expression<Func<SecurityLoginLogPoco, object>>[] navigationProperties)
+        public SecurityLoginLogRepository GetSingle(Expression<Func<SecurityLoginLogRepository, bool>> where, params Expression<Func<SecurityLoginLogRepository, object>>[] navigationProperties)
         {
             throw new NotImplementedException();
         }
 
-        public void Remove(params SecurityLoginLogPoco[] items)
+        public void Remove(params SecurityLoginLogRepository[] items)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(params SecurityLoginLogPoco[] items)
+        public void Update(params SecurityLoginLogRepository[] items)
         {
             throw new NotImplementedException();
         }
