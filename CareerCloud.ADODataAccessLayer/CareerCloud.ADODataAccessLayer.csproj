@@ -72,6 +72,10 @@
       <Project>{3e7f0f37-907b-438a-a808-432b27f50a23}</Project>
       <Name>CareerCloud.Pocos</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CareerCloud.UnitTests.Assignment1\CareerCloud.UnitTests.Assignment1.csproj">
+      <Project>{0ef4f160-68b1-491a-925f-064d66ec3283}</Project>
+      <Name>CareerCloud.UnitTests.Assignment1</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace CareerCloud.ADODataAccessLayer
 {
-    public abstract class BaseADO
+    public abstract class BaseADO 
     {
-        protected readonly SqlConnection _connection;
+        protected readonly string _connectionString;
         public BaseADO()
             {
-            _connection = new SqlConnection(ConfigurationManager.ConnectionStrings["MyConnection"].ConnectionString);
-            
-        }
+            _connectionString = ConfigurationManager.ConnectionStrings["MyConnection"].ConnectionString;
+            }
+
     }
 }
