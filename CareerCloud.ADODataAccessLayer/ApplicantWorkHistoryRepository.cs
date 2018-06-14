@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CareerCloud.ADODataAccessLayer
 {
-    class ApplicantWorkHistoryRepository : BaseADO, IDataRepository<ApplicantWorkHistoryPoco>
+    public class ApplicantWorkHistoryRepository : BaseADO, IDataRepository<ApplicantWorkHistoryPoco>
     {
         public void Add(params ApplicantWorkHistoryPoco[] items)
         {
@@ -18,16 +18,17 @@ namespace CareerCloud.ADODataAccessLayer
             using (connection)
             {
                 SqlCommand cmd = new SqlCommand();
+                int rowEffected = 0;
                 cmd.Connection = connection;
                 foreach (ApplicantWorkHistoryPoco item in items)
                 {
                     cmd.CommandText =
                     @"INSERT INTO [dbo].[Applicant_Work_History]
                     ([Id],[Applicant],[Company_Name],[Country_Code],[Location],[Job_Title],
-                    [Job_Description],[Start_Month],[Start_Year],[End_Month],[End_Year],[Time_Stamp])
+                    [Job_Description],[Start_Month],[Start_Year],[End_Month],[End_Year])
                         VALUES
                     (@ID, @Applicant, @Company_Name, @Country_Code, @Location, 
-                    @Job_Title, @Job_Description, @Start_Month, @Start_Year, @End_Month, @End_Year, @Time_Stamp)";
+                    @Job_Title, @Job_Description, @Start_Month, @Start_Year, @End_Month, @End_Year)";
 
                     cmd.Parameters.AddWithValue("@Id", item.Id);
                     cmd.Parameters.AddWithValue("@Applicant", item.Applicant);
@@ -42,7 +43,7 @@ namespace CareerCloud.ADODataAccessLayer
                     cmd.Parameters.AddWithValue("@End_Year", item.EndYear);
 
                     connection.Open();
-                    int rowEffected = cmd.ExecuteNonQuery();
+                    rowEffected = cmd.ExecuteNonQuery();
                     connection.Close();
                 }
             }
@@ -79,18 +80,17 @@ namespace CareerCloud.ADODataAccessLayer
                     poco.JobTitle = reader.GetString(5);
                     poco.JobDescription = reader.GetString(6);
                     poco.StartMonth = reader.GetInt16(7);
-                    poco.StartYear = reader.GetInt32(9);
-                    poco.EndMonth = reader.GetInt16(10);
-                    poco.EndYear = reader.GetInt32(11);
-                    poco.TimeStamp = (byte[])reader[12];
+                    poco.StartYear = reader.GetInt32(8);
+                    poco.EndMonth = reader.GetInt16(9);
+                    poco.EndYear = reader.GetInt32(10);
+                    poco.TimeStamp = (byte[])reader[11];
 
                     pocos[position] = poco;
                     position++;
                 }
                 connection.Close();
             }
-            return pocos.Where(a => a.Id != null).ToList();
-
+            return pocos.Where(p => p != null).ToList();
         }
 
         public IList<ApplicantWorkHistoryPoco> GetList(Expression<Func<ApplicantWorkHistoryPoco, bool>> where, params Expression<Func<ApplicantWorkHistoryPoco, object>>[] navigationProperties)
@@ -162,6 +162,9 @@ namespace CareerCloud.ADODataAccessLayer
                     cmd.Parameters.AddWithValue("@End_Year", poco.EndYear);
                     cmd.Parameters.AddWithValue("@Id", poco.Id);
 
+                    connection.Open();
+                    int rowEffected = cmd.ExecuteNonQuery();
+                    connection.Close();
                 }
             }
         }

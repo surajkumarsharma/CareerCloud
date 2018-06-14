@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CareerCloud.ADODataAccessLayer
 {
-    class ApplicantProfileRepository : BaseADO, IDataRepository<ApplicantProfilePoco>
+   public class ApplicantProfileRepository : BaseADO, IDataRepository<ApplicantProfilePoco>
     {
         public void Add(params ApplicantProfilePoco[] items)
         {
@@ -17,14 +17,15 @@ namespace CareerCloud.ADODataAccessLayer
             using (connection)
             {
                 SqlCommand cmd = new SqlCommand();
+                int rowEffected = 0;
                 cmd.Connection = connection;
                 foreach (ApplicantProfilePoco item in items)
                 {
                     cmd.CommandText =
                         @"INSERT INTO [dbo].[Applicant_Profiles]
-                        ([Id],[Login],[Current_Salary],[Current_Rate],[Currency],[Country_Code],[State_Province_Code],[Street_Address],[City_Town],[Zip_Postal_Code],[Time_Stamp])
+                        ([Id],[Login],[Current_Salary],[Current_Rate],[Currency],[Country_Code],[State_Province_Code],[Street_Address],[City_Town],[Zip_Postal_Code])
                         VALUES
-                        (@ID, @Login, @Current_Salary, @Current_Rate, @Currency, @Country_Code, @State_Province_Code, @Street_Address, @City_Town, @Zip_Postal_Code, @Time_Stamp)";
+                        (@ID, @Login, @Current_Salary, @Current_Rate, @Currency, @Country_Code, @State_Province_Code, @Street_Address, @City_Town, @Zip_Postal_Code)";
 
                     cmd.Parameters.AddWithValue("@Id", item.Id);
                     cmd.Parameters.AddWithValue("@Login", item.Login);
@@ -32,12 +33,13 @@ namespace CareerCloud.ADODataAccessLayer
                     cmd.Parameters.AddWithValue("@Current_Rate", item.CurrentRate);
                     cmd.Parameters.AddWithValue("@Currency", item.Currency);
                     cmd.Parameters.AddWithValue("@Country_Code", item.Country);
+                    cmd.Parameters.AddWithValue("@State_Province_Code", item.Province);
                     cmd.Parameters.AddWithValue("@Street_Address", item.Street);
                     cmd.Parameters.AddWithValue("@City_Town", item.City);
-                    cmd.Parameters.AddWithValue("@Postal_Code", item.PostalCode);
+                    cmd.Parameters.AddWithValue("@Zip_Postal_Code", item.PostalCode);
 
                     connection.Open();
-                    int rowEffected = cmd.ExecuteNonQuery();
+                    rowEffected += cmd.ExecuteNonQuery();
                     connection.Close();
                 }
 
@@ -84,8 +86,7 @@ namespace CareerCloud.ADODataAccessLayer
                 }
                 connection.Close();
             }
-            return pocos.Where(a => a.Id != null).ToList();
-
+            return pocos.Where(p => p != null).ToList();
         }
 
         public IList<ApplicantProfilePoco> GetList(System.Linq.Expressions.Expression<Func<ApplicantProfilePoco, bool>> where, params System.Linq.Expressions.Expression<Func<ApplicantProfilePoco, object>>[] navigationProperties)
@@ -155,7 +156,9 @@ namespace CareerCloud.ADODataAccessLayer
                     cmd.Parameters.AddWithValue("@Zip_Postal_Code", poco.PostalCode);
                     cmd.Parameters.AddWithValue("@Id", poco.Id);
 
-
+                    connection.Open();
+                    int rowEffected = cmd.ExecuteNonQuery();
+                    connection.Close();
                 }
             }
 

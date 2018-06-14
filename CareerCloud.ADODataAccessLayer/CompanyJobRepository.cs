@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CareerCloud.ADODataAccessLayer
 {
-    class CompanyJobRepository : BaseADO, IDataRepository<CompanyJobPoco>
+   public class CompanyJobRepository : BaseADO, IDataRepository<CompanyJobPoco>
     {
         public void Add(params CompanyJobPoco[] items)
         {
@@ -18,14 +18,15 @@ namespace CareerCloud.ADODataAccessLayer
             using (connection)
             {
                 SqlCommand cmd = new SqlCommand();
+                int rowEffected = 0;
                 cmd.Connection = connection;
                 foreach (CompanyJobPoco item in items)
                 {
                     cmd.CommandText =
                         @"INSERT INTO [dbo].[Company_Jobs]
-                        ([Id],[Company],[Profile_Created],[Is_Inactive],[Is_Company_Hidden],[Time_Stamp])
+                        ([Id],[Company],[Profile_Created],[Is_Inactive],[Is_Company_Hidden])
                         VALUES
-                        (@ID, @Company, @Profile_Created, @Is_Inactive, @Is_Company_Hidden, @Time_Stamp)";
+                        (@ID, @Company, @Profile_Created, @Is_Inactive, @Is_Company_Hidden)";
 
                     cmd.Parameters.AddWithValue("@Id", item.Id);
                     cmd.Parameters.AddWithValue("@Company", item.Company);
@@ -34,7 +35,7 @@ namespace CareerCloud.ADODataAccessLayer
                     cmd.Parameters.AddWithValue("@Is_Company_Hidden", item.IsCompanyHidden);
 
                     connection.Open();
-                    int rowEffected = cmd.ExecuteNonQuery();
+                    rowEffected = cmd.ExecuteNonQuery();
                     connection.Close();
                 }
 
@@ -49,7 +50,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public IList<CompanyJobPoco> GetAll(params Expression<Func<CompanyJobPoco, object>>[] navigationProperties)
         {
-            CompanyJobPoco[] pocos = new CompanyJobPoco[1000];
+            CompanyJobPoco[] pocos = new CompanyJobPoco[5000];
             SqlConnection connection = new SqlConnection(_connectionString);
             using (connection)
             {
@@ -76,7 +77,7 @@ namespace CareerCloud.ADODataAccessLayer
                 }
                 connection.Close();
             }
-            return pocos.Where(a => a.Id != null).ToList();
+            return pocos.Where(p => p != null).ToList();
         }
 
         public IList<CompanyJobPoco> GetList(Expression<Func<CompanyJobPoco, bool>> where, params Expression<Func<CompanyJobPoco, object>>[] navigationProperties)
@@ -126,7 +127,7 @@ namespace CareerCloud.ADODataAccessLayer
                 Company = @Company,
                 Profile_Created = @Profile_Created,
                 Is_Inactive = @Is_Inactive,
-                Is_Company_Hidden = @Is_Company_Hidden,
+                Is_Company_Hidden = @Is_Company_Hidden
                 WHERE Id =@Id ";
 
                     cmd.Parameters.AddWithValue("@Company", poco.Company);
@@ -135,6 +136,9 @@ namespace CareerCloud.ADODataAccessLayer
                     cmd.Parameters.AddWithValue("@Is_Company_Hidden", poco.IsCompanyHidden);
                     cmd.Parameters.AddWithValue("@Id", poco.Id);
 
+                    connection.Open();
+                    int rowEffected = cmd.ExecuteNonQuery();
+                    connection.Close();
                 }
             }
 

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CareerCloud.ADODataAccessLayer
 {
-    class CompanyLocationRepository : BaseADO, IDataRepository<CompanyLocationPoco>
+    public class CompanyLocationRepository : BaseADO, IDataRepository<CompanyLocationPoco>
     {
         public void Add(params CompanyLocationPoco[] items)
         {
@@ -18,14 +18,15 @@ namespace CareerCloud.ADODataAccessLayer
             using (connection)
             {
                 SqlCommand cmd = new SqlCommand();
+                int rowEffected = 0;
                 cmd.Connection = connection;
                 foreach (CompanyLocationPoco item in items)
                 {
                     cmd.CommandText =
                         @"INSERT INTO [dbo].[Company_Locations]
-                        ([Id],[Company],[Country_Code],[State_Province_Code],[Street_Address],[City_Town],[Zip_Postal_Code],[Time_Stamp])
+                        ([Id],[Company],[Country_Code],[State_Province_Code],[Street_Address],[City_Town],[Zip_Postal_Code])
                         VALUES
-                        (@ID, @Company, @Country_Code, @State_Province_Code, @Street_Address, @City_Town, @Zip_Postal_Code, @Time_Stamp)";
+                        (@ID, @Company, @Country_Code, @State_Province_Code, @Street_Address, @City_Town, @Zip_Postal_Code)";
 
                     cmd.Parameters.AddWithValue("@Id", item.Id);
                     cmd.Parameters.AddWithValue("@Company", item.Company);
@@ -36,7 +37,7 @@ namespace CareerCloud.ADODataAccessLayer
                     cmd.Parameters.AddWithValue("@Zip_Postal_Code", item.PostalCode);
 
                     connection.Open();
-                    int rowEffected = cmd.ExecuteNonQuery();
+                    rowEffected = cmd.ExecuteNonQuery();
                     connection.Close();
                 }
             }
@@ -70,8 +71,8 @@ namespace CareerCloud.ADODataAccessLayer
                     poco.CountryCode = reader.GetString(2);
                     poco.Province = reader.GetString(3);
                     poco.Street = reader.GetString(4);
-                    poco.City = reader.GetString(5);
-                    poco.PostalCode = reader.GetString(6);
+                    poco.City = (reader[5] == DBNull.Value) ? null :reader.GetString(5);
+                    poco.PostalCode = (reader[6]==DBNull.Value)?null:reader.GetString(6);
                     poco.TimeStamp = (byte[])reader[7];
 
                     pocos[position] = poco;
@@ -79,8 +80,7 @@ namespace CareerCloud.ADODataAccessLayer
                 }
                 connection.Close();
             }
-            return pocos.Where(a => a.Id != null).ToList();
-
+            return pocos.Where(p => p != null).ToList();
         }
 
         public IList<CompanyLocationPoco> GetList(Expression<Func<CompanyLocationPoco, bool>> where, params Expression<Func<CompanyLocationPoco, object>>[] navigationProperties)
@@ -131,19 +131,22 @@ namespace CareerCloud.ADODataAccessLayer
                 Company = @Company,
                 Country_Code = @Country_Code,
                 State_Province_Code = @State_Province_Code,
-                State_Address = @State_Address,
+                Street_Address = @Street_Address,
                 City_Town = @City_Town,
-                Zip_Postal_Code = @Zip_Postal_Code,
+                Zip_Postal_Code = @Zip_Postal_Code
                 WHERE Id =@Id ";
 
                     cmd.Parameters.AddWithValue("@Company", poco.Company);
                     cmd.Parameters.AddWithValue("@Country_Code", poco.CountryCode);
                     cmd.Parameters.AddWithValue("@State_Province_Code", poco.Province);
-                    cmd.Parameters.AddWithValue("@State_Address", poco.Street);
+                    cmd.Parameters.AddWithValue("@Street_Address", poco.Street);
                     cmd.Parameters.AddWithValue("@City_Town", poco.City);
                     cmd.Parameters.AddWithValue("@Zip_Postal_Code", poco.PostalCode);
                     cmd.Parameters.AddWithValue("@Id", poco.Id);
 
+                    connection.Open();
+                    int rowEffected = cmd.ExecuteNonQuery();
+                    connection.Close();
                 }
             }
 

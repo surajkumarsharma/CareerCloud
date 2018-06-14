@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CareerCloud.ADODataAccessLayer
 {
-    class CompanyProfileRepository : BaseADO, IDataRepository<CompanyProfilePoco>
+    public class CompanyProfileRepository : BaseADO, IDataRepository<CompanyProfilePoco>
     {
         public void Add(params CompanyProfilePoco[] items)
         {
@@ -18,14 +18,15 @@ namespace CareerCloud.ADODataAccessLayer
             using (connection)
             {
                 SqlCommand cmd = new SqlCommand();
+                int rowEffected = 0;
                 cmd.Connection = connection;
                 foreach (CompanyProfilePoco item in items)
                 {
                     cmd.CommandText =
                         @"INSERT INTO [dbo].[Company_Profiles]
-                        ([Id],[Registration_Date],[Company_Website],[Contact_Phone],[Contact_Name],[Company_Logo],[Time_Stamp])
+                        ([Id],[Registration_Date],[Company_Website],[Contact_Phone],[Contact_Name],[Company_Logo])
                         VALUES
-                        (@ID, @Registration_Date, @Company_Website, @Certificate_Diploma, @Start_Date, @Completion_Date, @Completion_Percent, @Time_Stamp)";
+                        (@ID, @Registration_Date, @Company_Website, @Contact_Phone, @Contact_Name, @Company_Logo)";
 
                     cmd.Parameters.AddWithValue("@Id", item.Id);
                     cmd.Parameters.AddWithValue("@Registration_Date", item.RegistrationDate);
@@ -35,7 +36,7 @@ namespace CareerCloud.ADODataAccessLayer
                     cmd.Parameters.AddWithValue("@Company_Logo", item.CompanyLogo);
 
                     connection.Open();
-                    int rowEffected = cmd.ExecuteNonQuery();
+                    rowEffected = cmd.ExecuteNonQuery();
                     connection.Close();
                 }
 
@@ -68,19 +69,18 @@ namespace CareerCloud.ADODataAccessLayer
                     CompanyProfilePoco poco = new CompanyProfilePoco();
                     poco.Id = reader.GetGuid(0);
                     poco.RegistrationDate = reader.GetDateTime(1);
-                    poco.CompanyWebsite = reader.GetString(2);
+                    poco.CompanyWebsite = (reader[2] == DBNull.Value)? null : reader.GetString(2);
                     poco.ContactPhone = reader.GetString(3);
-                    poco.ContactName = reader.GetString(4);
-                    poco.CompanyLogo = reader.GetByte(5);
-                    poco.TimeStamp = (byte[])reader[7];
+                    poco.ContactName = (reader[4] == DBNull.Value)? null : reader.GetString(4);
+                    poco.CompanyLogo = (reader[5] == DBNull.Value) ? null : (byte[])reader[5];
+                    poco.TimeStamp = (byte[])reader[6];
 
                     pocos[position] = poco;
                     position++;
                 }
                 connection.Close();
             }
-            return pocos.Where(a => a.Id != null).ToList();
-
+            return pocos.Where(p => p != null).ToList();
         }
 
         public IList<CompanyProfilePoco> GetList(Expression<Func<CompanyProfilePoco, bool>> where, params Expression<Func<CompanyProfilePoco, object>>[] navigationProperties)
@@ -126,13 +126,13 @@ namespace CareerCloud.ADODataAccessLayer
                 cmd.Connection = connection;
                 foreach (CompanyProfilePoco poco in items)
                 {
-                    cmd.CommandText = @"UPDATE Applicant_Educations
+                    cmd.CommandText = @"UPDATE Company_Profiles
                 SET 
                 Registration_Date = @Registration_Date,
                 Company_Website = @Company_Website,
                 Contact_Phone = @Contact_Phone,
                 Contact_Name = @Contact_Name,
-                Company_Logo = @Company_Logo,
+                Company_Logo = @Company_Logo
                 WHERE Id =@Id ";
 
                     cmd.Parameters.AddWithValue("@Registration_Date", poco.RegistrationDate);
@@ -142,7 +142,9 @@ namespace CareerCloud.ADODataAccessLayer
                     cmd.Parameters.AddWithValue("@Company_Logo", poco.CompanyLogo);
                     cmd.Parameters.AddWithValue("@Id", poco.Id);
 
-
+                    connection.Open();
+                    int rowEffected = cmd.ExecuteNonQuery();
+                    connection.Close();
                 }
             }
 

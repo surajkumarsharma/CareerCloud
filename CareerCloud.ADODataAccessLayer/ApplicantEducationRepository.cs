@@ -20,13 +20,14 @@ namespace CareerCloud.ADODataAccessLayer
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = connection;
+                int rowEffected = 0;
                 foreach (ApplicantEducationPoco item in items)
                 {
                     cmd.CommandText =
                         @"INSERT INTO [dbo].[Applicant_Educations]
-                        ([Id],[Applicant],[Major],[Certificate_Diploma],[Start_Date],[Completion_Date],[Completion_Percent],[Time_Stamp])
+                        (Id,Applicant,Major,Certificate_Diploma,Start_Date,Completion_Date,Completion_Percent)
                         VALUES
-                        (@ID, @Applicant, @Major, @Certificate_Diploma, @Start_Date, @Completion_Date, @Completion_Percent, @Time_Stamp)";
+                        (@ID, @Applicant, @Major, @Certificate_Diploma, @Start_Date, @Completion_Date, @Completion_Percent)";
 
                     cmd.Parameters.AddWithValue("@Id", item.Id);
                     cmd.Parameters.AddWithValue("@Applicant", item.Applicant);
@@ -37,7 +38,7 @@ namespace CareerCloud.ADODataAccessLayer
                     cmd.Parameters.AddWithValue("@Completion_Percent", item.CompletionPercent);
 
                     connection.Open();
-                    int rowEffected = cmd.ExecuteNonQuery();
+                    rowEffected += cmd.ExecuteNonQuery();
                     connection.Close();
                 }
 
@@ -71,8 +72,8 @@ namespace CareerCloud.ADODataAccessLayer
                     poco.Applicant = reader.GetGuid(1);
                     poco.Major = reader.GetString(2);
                     poco.CertificateDiploma = reader.GetString(3);
-                    poco.StartDate = reader.GetDateTime(4);
-                    poco.CompletionDate = reader.GetDateTime(5);
+                    poco.StartDate = (DateTime?)reader[4];
+                    poco.CompletionDate = (DateTime?)reader[5];
                     poco.CompletionPercent = (byte?)reader[6];
                     poco.TimeStamp = (byte[])reader[7];
 
@@ -81,7 +82,7 @@ namespace CareerCloud.ADODataAccessLayer
                 }
                 connection.Close();
             }
-            return pocos.Where(a => a.Id !=null).ToList();
+            return pocos.Where(p => p != null).ToList();
         }
         public IList<ApplicantEducationPoco> GetList(Expression<Func<ApplicantEducationPoco, bool>> where, params Expression<Func<ApplicantEducationPoco, object>>[] navigationProperties)
         {
@@ -142,7 +143,9 @@ namespace CareerCloud.ADODataAccessLayer
                     cmd.Parameters.AddWithValue("@Completion_Percent", poco.CompletionPercent);
                     cmd.Parameters.AddWithValue("@Id", poco.Id);
 
-
+                    connection.Open();
+                    int rowEffected = cmd.ExecuteNonQuery();
+                    connection.Close();
                 }
             }
         }

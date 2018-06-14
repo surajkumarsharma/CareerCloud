@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CareerCloud.ADODataAccessLayer
 {
-    class CompanyJobEducationRepository : BaseADO, IDataRepository<CompanyJobEducationPoco>
+    public class CompanyJobEducationRepository : BaseADO, IDataRepository<CompanyJobEducationPoco>
     {
         public void Add(params CompanyJobEducationPoco[] items)
         {
@@ -18,14 +18,15 @@ namespace CareerCloud.ADODataAccessLayer
             using (connection)
             {
                 SqlCommand cmd = new SqlCommand();
+                int rowEffected = 0;
                 cmd.Connection = connection;
                 foreach (CompanyJobEducationPoco item in items)
                 {
                     cmd.CommandText =
-                        @"INSERT INTO [dbo].[Company_Job_Education]
-                        ([Id],[Job],[Major],[Importance],[Time_Stamp])
+                        @"INSERT INTO [dbo].[Company_Job_Educations]
+                        ([Id],[Job],[Major],[Importance])
                         VALUES
-                        (@ID, @Job, @Major, @Importance, @Time_Stamp)";
+                        (@ID, @Job, @Major, @Importance)";
 
                     cmd.Parameters.AddWithValue("@Id", item.Id);
                     cmd.Parameters.AddWithValue("@Job", item.Job);
@@ -33,7 +34,7 @@ namespace CareerCloud.ADODataAccessLayer
                     cmd.Parameters.AddWithValue("@Importance", item.Importance);
 
                     connection.Open();
-                    int rowEffected = cmd.ExecuteNonQuery();
+                    rowEffected = cmd.ExecuteNonQuery();
                     connection.Close();
                 }
 
@@ -48,7 +49,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public IList<CompanyJobEducationPoco> GetAll(params Expression<Func<CompanyJobEducationPoco, object>>[] navigationProperties)
         {
-            CompanyJobEducationPoco[] pocos = new CompanyJobEducationPoco[1000];
+            CompanyJobEducationPoco[] pocos = new CompanyJobEducationPoco[5000];
             SqlConnection connection = new SqlConnection(_connectionString);
 
             using (connection)
@@ -75,8 +76,7 @@ namespace CareerCloud.ADODataAccessLayer
                 }
                 connection.Close();
             }
-            return pocos.Where(a => a.Id != null).ToList();
-
+            return pocos.Where(p => p != null).ToList();
         }
 
         public IList<CompanyJobEducationPoco> GetList(Expression<Func<CompanyJobEducationPoco, bool>> where, params Expression<Func<CompanyJobEducationPoco, object>>[] navigationProperties)
@@ -133,6 +133,10 @@ namespace CareerCloud.ADODataAccessLayer
                     cmd.Parameters.AddWithValue("@Major", poco.Major);
                     cmd.Parameters.AddWithValue("@Importance", poco.Importance);
                     cmd.Parameters.AddWithValue("@Id", poco.Id);
+
+                    connection.Open();
+                    int rowEffected = cmd.ExecuteNonQuery();
+                    connection.Close();
                 }
             }
         }

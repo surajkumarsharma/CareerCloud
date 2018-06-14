@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CareerCloud.ADODataAccessLayer
 {
-    class CompanyDescriptionRepository : BaseADO, IDataRepository<CompanyDescriptionPoco>
+   public class CompanyDescriptionRepository : BaseADO, IDataRepository<CompanyDescriptionPoco>
     {
         public void Add(params CompanyDescriptionPoco[] items)
         {
@@ -18,14 +18,15 @@ namespace CareerCloud.ADODataAccessLayer
             using (connection)
             {
                 SqlCommand cmd = new SqlCommand();
+                int rowEffected = 0;
                 cmd.Connection = connection;
                 foreach (CompanyDescriptionPoco item in items)
                 {
                     cmd.CommandText =
                         @"INSERT INTO [dbo].[Company_Descriptions]
-                        ([Id],[Company],[LanguageID],[Company_Name],[Company_Description],[Time_Stamp])
+                        ([Id],[Company],[LanguageID],[Company_Name],[Company_Description])
                         VALUES
-                        (@ID, @Company, @LanguageID, @Company_Name, @Company_Description, @Time_Stamp)";
+                        (@ID, @Company, @LanguageID, @Company_Name, @Company_Description)";
 
                     cmd.Parameters.AddWithValue("@Id", item.Id);
                     cmd.Parameters.AddWithValue("@Company", item.Company);
@@ -34,7 +35,7 @@ namespace CareerCloud.ADODataAccessLayer
                     cmd.Parameters.AddWithValue("@Company_Description", item.CompanyDescription);
 
                     connection.Open();
-                    int rowEffected = cmd.ExecuteNonQuery();
+                    rowEffected = cmd.ExecuteNonQuery();
                     connection.Close();
                 }
 
@@ -56,7 +57,7 @@ namespace CareerCloud.ADODataAccessLayer
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = connection;
-                cmd.CommandText = "SELECT * from Company_Description";
+                cmd.CommandText = "SELECT * from Company_Descriptions";
 
                 connection.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -77,8 +78,7 @@ namespace CareerCloud.ADODataAccessLayer
                 }
                 connection.Close();
             }
-            return pocos.Where(a => a.Id != null).ToList();
-
+            return pocos.Where(p => p != null).ToList();
         }
 
         public IList<CompanyDescriptionPoco> GetList(Expression<Func<CompanyDescriptionPoco, bool>> where, params Expression<Func<CompanyDescriptionPoco, object>>[] navigationProperties)
@@ -102,7 +102,7 @@ namespace CareerCloud.ADODataAccessLayer
                 cmd.Connection = connection;
                 foreach (CompanyDescriptionPoco poco in items)
                 {
-                    cmd.CommandText = @"DELETE FROM Company_Description
+                    cmd.CommandText = @"DELETE FROM Company_Descriptions
                 WHERE ID = @Id";
                     cmd.Parameters.AddWithValue("@Id", poco.Id);
 
@@ -122,12 +122,11 @@ namespace CareerCloud.ADODataAccessLayer
                 cmd.Connection = connection;
                 foreach (CompanyDescriptionPoco poco in items)
                 {
-                    cmd.CommandText = @"UPDATE Company_Description
+                    cmd.CommandText = @"UPDATE Company_Descriptions
                 SET 
                 Company = @Company,
-                LanguageId = @LanguageId;
+                LanguageId = @LanguageId,
                 Company_Name = @Company_Name,
-                Start_Date = @Start_Date,
                 Company_Description = @Company_Description
                 WHERE Id =@Id ";
 
@@ -136,9 +135,12 @@ namespace CareerCloud.ADODataAccessLayer
                     cmd.Parameters.AddWithValue("@Company_Name", poco.CompanyName);
                     cmd.Parameters.AddWithValue("@Company_Description", poco.CompanyDescription);
                     cmd.Parameters.AddWithValue("@Id", poco.Id);
+
+                    connection.Open();
+                    int rowEffected = cmd.ExecuteNonQuery();
+                    connection.Close();
                 }
             }
-
         }
     }
 }
