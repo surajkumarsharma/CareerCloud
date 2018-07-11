@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CareerCloud.BusinessLogicLayer
 {
-    class ApplicantResumeLogic : BaseLogic<ApplicantResumePoco>
+    public class ApplicantResumeLogic : BaseLogic<ApplicantResumePoco>
     {
         public ApplicantResumeLogic(IDataRepository<ApplicantResumePoco> repository)
             : base(repository)

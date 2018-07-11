@@ -8,19 +8,19 @@ using System.Threading.Tasks;
 
 namespace CareerCloud.BusinessLogicLayer
 {
-    public class ApplicantJobApplicationLogic : BaseLogic<ApplicantJobApplicationPoco>
+    public class CompanyJobSkillLogic: BaseLogic<CompanyJobSkillPoco>
     {
-        public ApplicantJobApplicationLogic(IDataRepository<ApplicantJobApplicationPoco> repository)
-            : base(repository)
+        public CompanyJobSkillLogic(IDataRepository<CompanyJobSkillPoco> repository)
+    : base(repository)
         {
         }
-        public override void Add(ApplicantJobApplicationPoco[] pocos)
+        public override void Add(CompanyJobSkillPoco[] pocos)
         {
             Verify(pocos);
             base.Add(pocos);
         }
 
-        public override void Update(ApplicantJobApplicationPoco[] pocos)
+        public override void Update(CompanyJobSkillPoco[] pocos)
         {
             base.Update(pocos);
             {
@@ -29,16 +29,17 @@ namespace CareerCloud.BusinessLogicLayer
             }
         }
 
-        protected override void Verify(ApplicantJobApplicationPoco[] pocos)
+        protected override void Verify(CompanyJobSkillPoco[] pocos)
         {
             List<ValidationException> exceptions = new List<ValidationException>();
             {
-                foreach (ApplicantJobApplicationPoco poco in pocos)
+                foreach (CompanyJobSkillPoco poco in pocos)
                 {
-                    if (poco.ApplicationDate > DateTime.Now)
+                    if (poco.Importance < 0)
                     {
-                        exceptions.Add(new ValidationException(110, $"ApplicationDate cannot be greater than today - {poco.Id}"));
+                        exceptions.Add(new ValidationException(400, $"Importance cannot be less than 0 - {poco.Id}"));
                     }
+                   
                 }
                 if (exceptions.Count > 0)
                 {
@@ -46,5 +47,6 @@ namespace CareerCloud.BusinessLogicLayer
                 }
             }
         }
+
     }
 }

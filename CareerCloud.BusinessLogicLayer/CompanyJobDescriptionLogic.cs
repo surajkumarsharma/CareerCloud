@@ -8,19 +8,19 @@ using System.Threading.Tasks;
 
 namespace CareerCloud.BusinessLogicLayer
 {
-    public class ApplicantProfileLogic : BaseLogic<ApplicantProfilePoco>
+    public class CompanyJobDescriptionLogic : BaseLogic<CompanyJobDescriptionPoco>
     {
-        public ApplicantProfileLogic(IDataRepository<ApplicantProfilePoco> repository)
-            : base(repository)
+        public CompanyJobDescriptionLogic(IDataRepository<CompanyJobDescriptionPoco> repository)
+    : base(repository)
         {
         }
-        public override void Add(ApplicantProfilePoco[] pocos)
+        public override void Add(CompanyJobDescriptionPoco[] pocos)
         {
             Verify(pocos);
             base.Add(pocos);
         }
 
-        public override void Update(ApplicantProfilePoco[] pocos)
+        public override void Update(CompanyJobDescriptionPoco[] pocos)
         {
             base.Update(pocos);
             {
@@ -29,19 +29,20 @@ namespace CareerCloud.BusinessLogicLayer
             }
         }
 
-        protected override void Verify(ApplicantProfilePoco[] pocos)
+        protected override void Verify(CompanyJobDescriptionPoco[] pocos)
         {
             List<ValidationException> exceptions = new List<ValidationException>();
             {
-                foreach (ApplicantProfilePoco poco in pocos)
+                foreach (CompanyJobDescriptionPoco poco in pocos)
                 {
-                    if (poco.CurrentSalary < 0)
+                    if(string.IsNullOrEmpty(poco.JobName))
                     {
-                        exceptions.Add(new ValidationException(111, $"CurrentSalary cannot be negative - {poco.Id}"));
+                        exceptions.Add(new ValidationException(300, $"JobName cannot be empty - {poco.Id}"));
                     }
-                    if(poco.CurrentRate <0)
+
+                    if (string.IsNullOrEmpty(poco.JobName))
                     {
-                        exceptions.Add(new ValidationException(112, $"CurrentRate cannot be negative - {poco.Id}"));
+                        exceptions.Add(new ValidationException(301, $"JobDescriptions cannot be empty - {poco.Id}"));
                     }
                 }
                 if (exceptions.Count > 0)
@@ -50,5 +51,6 @@ namespace CareerCloud.BusinessLogicLayer
                 }
             }
         }
+
     }
 }

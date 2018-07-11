@@ -8,19 +8,19 @@ using System.Threading.Tasks;
 
 namespace CareerCloud.BusinessLogicLayer
 {
-    public class ApplicantProfileLogic : BaseLogic<ApplicantProfilePoco>
+    public class CompanyJobEducationLogic : BaseLogic<CompanyJobEducationPoco>
     {
-        public ApplicantProfileLogic(IDataRepository<ApplicantProfilePoco> repository)
-            : base(repository)
+        public CompanyJobEducationLogic(IDataRepository<CompanyJobEducationPoco> repository)
+    : base(repository)
         {
         }
-        public override void Add(ApplicantProfilePoco[] pocos)
+        public override void Add(CompanyJobEducationPoco[] pocos)
         {
             Verify(pocos);
             base.Add(pocos);
         }
 
-        public override void Update(ApplicantProfilePoco[] pocos)
+        public override void Update(CompanyJobEducationPoco[] pocos)
         {
             base.Update(pocos);
             {
@@ -29,19 +29,19 @@ namespace CareerCloud.BusinessLogicLayer
             }
         }
 
-        protected override void Verify(ApplicantProfilePoco[] pocos)
+        protected override void Verify(CompanyJobEducationPoco[] pocos)
         {
             List<ValidationException> exceptions = new List<ValidationException>();
             {
-                foreach (ApplicantProfilePoco poco in pocos)
+                foreach (CompanyJobEducationPoco poco in pocos)
                 {
-                    if (poco.CurrentSalary < 0)
+                    if ((string.IsNullOrEmpty(poco.Major) || (poco.Major.Length < 2)))
                     {
-                        exceptions.Add(new ValidationException(111, $"CurrentSalary cannot be negative - {poco.Id}"));
+                        exceptions.Add(new ValidationException(200, $"Major must be at least 2 characters - {poco.Id}"));
                     }
-                    if(poco.CurrentRate <0)
+                    if (poco.Importance < 0) 
                     {
-                        exceptions.Add(new ValidationException(112, $"CurrentRate cannot be negative - {poco.Id}"));
+                        exceptions.Add(new ValidationException(201, $"Importance cannot be less than 0  - {poco.Id}"));
                     }
                 }
                 if (exceptions.Count > 0)
@@ -50,5 +50,6 @@ namespace CareerCloud.BusinessLogicLayer
                 }
             }
         }
+
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CareerCloud.BusinessLogicLayer
 {
-    class ApplicantSkillLogic: BaseLogic<ApplicantSkillPoco>
+   public class ApplicantSkillLogic: BaseLogic<ApplicantSkillPoco>
     {
         public ApplicantSkillLogic(IDataRepository<ApplicantSkillPoco> repository)
     : base(repository)
@@ -37,11 +37,19 @@ namespace CareerCloud.BusinessLogicLayer
                 {
                     if (poco.StartMonth > 12)
                     {
-                        exceptions.Add(new ValidationException(113, $"Cannot be greater than 12 - {poco.Id}"));
+                        exceptions.Add(new ValidationException(101, $"Cannot be greater than 12 - {poco.Id}"));
                     }
                     if (poco.EndMonth > 12)
                     {
-                        exceptions.Add(new ValidationException(114, $"Cannot be greater than 12 - {poco.Id}"));
+                        exceptions.Add(new ValidationException(102, $"Cannot be greater than 12 - {poco.Id}"));
+                    }
+                    if (poco.StartYear < 1900)
+                    {
+                        exceptions.Add(new ValidationException(103, $"Cannot be less then 1900 - {poco.Id}"));
+                    }
+                    if (poco.EndYear < poco.StartYear)
+                    {
+                        exceptions.Add(new ValidationException(104, $"Cannot be less then StartYear - {poco.Id}"));
                     }
                 }
                 if (exceptions.Count > 0)
