@@ -16,5 +16,8 @@ public class SystemCountryCodePoco
 
         public string Name { get; set; }
 
+        public virtual ICollection<ApplicantProfilePoco> ApplicantProfiles { get; set; }
+
+        public virtual ICollection<ApplicantWorkHistoryPoco> ApplicantWorkHistories { get; set; }
     }
 }
