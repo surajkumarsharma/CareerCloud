@@ -9,17 +9,16 @@ using System.Threading.Tasks;
 namespace CareerCloud.Pocos
 {
     [Table("Company_Profiles")]
-   public  class CompanyProfilePoco : IPoco
+   public class CompanyProfilePoco : IPoco
     {
         [Key]
         public Guid Id { get; set; }
-
         [Column("Registration_Date")]
         public DateTime RegistrationDate { get; set; }
 
         [Column("Company_Website")]
         public string CompanyWebsite { get; set; }
-
+        [Required]
         [Column("Contact_Phone")]
         public string ContactPhone { get; set; }
 
@@ -30,7 +29,7 @@ namespace CareerCloud.Pocos
         public byte[] CompanyLogo { get; set; }
 
         [Column("Time_Stamp")]
-        public byte[] TimeStamp { get; set; }
+        public Byte[] TimeStamp { get; set; }
 
         public virtual ICollection<CompanyDescriptionPoco> CompanyDescriptions { get; set; }
 

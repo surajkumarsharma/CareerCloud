@@ -13,7 +13,7 @@ namespace CareerCloud.Pocos
     {
         [Key]
         public Guid Id { get; set; }
-        [Key]
+
         public Guid Applicant { get; set; }
 
         public string Skill { get; set; }
@@ -36,6 +36,7 @@ namespace CareerCloud.Pocos
         [Column("Time_Stamp")]
         public byte[] TimeStamp { get; set; }
 
+        [ForeignKey("Applicant")]
         public virtual ApplicantProfilePoco ApplicantProfiles { get; set; }
 
     }

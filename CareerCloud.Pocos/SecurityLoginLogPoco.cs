@@ -14,7 +14,6 @@ namespace CareerCloud.Pocos
     {
         [Key]
         public Guid Id { get; set; }
-
         public Guid Login { get; set; }
 
         [Column("Source_IP")]
@@ -26,6 +25,7 @@ namespace CareerCloud.Pocos
         [Column("Is_Succesful")]
         public bool IsSuccesful { get; set; }
 
+        [ForeignKey("Login")]
         public virtual SecurityLoginPoco SecurityLogins { get; set; }
 
 

@@ -21,8 +21,10 @@ namespace CareerCloud.Pocos
         [Column("Time_Stamp")]
         public byte[] TimeStamp { get; set; }
 
+        [ForeignKey("Login")]
         public virtual SecurityLoginPoco SecurityLogins {get; set;}
 
+        [ForeignKey("Role")]
         public virtual SecurityRolePoco SecurityRoles { get; set; }
 
     }

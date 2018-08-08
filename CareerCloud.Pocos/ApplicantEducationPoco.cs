@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CareerCloud.Pocos
 {
-    [Table("Applicant_Educations") ]
+    [Table("Applicant_Educations")]
     public class ApplicantEducationPoco:IPoco
     {
         [Key]
@@ -26,6 +26,7 @@ namespace CareerCloud.Pocos
         [Column("Time_Stamp")]
         public byte[] TimeStamp { get; set; }
 
+        [ForeignKey("Applicant")]
         public virtual ApplicantProfilePoco ApplicantProfiles  { get; set; }
         //EF needs an object reference to a real ApplicantProfilePoco
     }

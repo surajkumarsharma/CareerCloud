@@ -19,7 +19,6 @@ namespace CareerCloud.Pocos
         public decimal? CurrentSalary { get; set; }
         [Column("Current_Rate")]
         public decimal?  CurrentRate { get; set; }
-
         public string Currency { get; set; }
         [Column("Country_Code")]
         public string Country { get; set; }
@@ -37,9 +36,9 @@ namespace CareerCloud.Pocos
         public virtual ICollection<ApplicantEducationPoco> ApplicantEducations { get; set; }
 
         public virtual ICollection<ApplicantJobApplicationPoco> ApplicantJobs { get; set; }
-
+        [ForeignKey("Login")]
         public virtual SecurityLoginPoco SecurityLogins { get; set; }
-
+        [ForeignKey("Country")]
         public virtual SystemCountryCodePoco SystemCountryCodes { get; set; }
 
         public virtual ICollection<ApplicantResumePoco> ApplicantResumes { get; set; }

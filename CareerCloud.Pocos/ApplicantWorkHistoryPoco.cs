@@ -14,13 +14,11 @@ namespace CareerCloud.Pocos
     {
         [Key]
         public Guid Id { get; set; }
-
         public Guid Applicant { get; set; }
 
         [Column("Company_Name")]
         public string CompanyName { get; set; }
 
-        [Key]
         [Column("Country_Code")]
         public string CountryCode { get; set; }
 
@@ -46,9 +44,9 @@ namespace CareerCloud.Pocos
 
         [Column("Time_Stamp")]
         public byte[] TimeStamp { get; set; }
-
+        [ForeignKey ("Applicant")]
         public virtual ApplicantProfilePoco ApplicantProfiles { get; set; }
-
+        [ForeignKey("CountryCode")]
         public virtual SystemCountryCodePoco SystemCountryCodes { get; set; }
     }
 }

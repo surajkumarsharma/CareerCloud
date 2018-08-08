@@ -22,7 +22,7 @@ namespace CareerCloud.Pocos
 
         [Column("Time_Stamp")]
         public byte[] TimeStamp { get; set; }
-
+        [ForeignKey("Job")]
         public virtual CompanyJobPoco CompanyJobs { get; set; }
     }
 }

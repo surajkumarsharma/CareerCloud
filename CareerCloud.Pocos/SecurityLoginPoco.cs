@@ -58,6 +58,5 @@ namespace CareerCloud.Pocos
 
         public virtual ICollection<SecurityLoginsRolePoco> SecurityLoginsRoles { get; set; }
 
-        public virtual ICollection<SecurityRolePoco> SecurityRoles { get; set; }
     }
 }
