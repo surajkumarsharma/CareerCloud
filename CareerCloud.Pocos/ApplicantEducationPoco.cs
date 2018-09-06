@@ -28,6 +28,6 @@ namespace CareerCloud.Pocos
 
         [ForeignKey("Applicant")]
         public virtual ApplicantProfilePoco ApplicantProfiles  { get; set; }
-        //EF needs an object reference to a real ApplicantProfilePoco
+        //EF needs an object reference to a real ApplicantProfilePoco...
     }
 }

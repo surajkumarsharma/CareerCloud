@@ -1,4 +1,4 @@
-﻿using CareerCloud.Pocos;
+﻿ using CareerCloud.Pocos;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -11,10 +11,11 @@ namespace CareerCloud.EntityFrameworkDataAccess
 {
     class CareerCloudContext : DbContext
     {
-        public CareerCloudContext() : 
+        public CareerCloudContext(bool createProxy = true) : 
             base(@"Data Source=DESKTOP-GOTQAP5\HUMBERBRIDGING;Initial Catalog=JOB_PORTAL_DB;Integrated Security=True;")
         {
-
+            Configuration.ProxyCreationEnabled = createProxy;
+            //Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
         }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

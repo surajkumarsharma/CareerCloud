@@ -38,7 +38,13 @@ namespace CareerCloud.BusinessLogicLayer
                     _repository.Update(pocos);
             }
 
-            protected virtual void Verify(SystemCountryCodePoco[] pocos)
+            public void Delete(SystemCountryCodePoco[] pocos)
+            {
+                _repository.Remove(pocos);
+            }
+
+
+        protected virtual void Verify(SystemCountryCodePoco[] pocos)
             {
                 List<ValidationException> exceptions = new List<ValidationException>();
                 {
