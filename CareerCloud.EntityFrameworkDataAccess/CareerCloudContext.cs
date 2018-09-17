@@ -1,6 +1,7 @@
-﻿ using CareerCloud.Pocos;
+﻿using CareerCloud.Pocos;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
@@ -11,8 +12,8 @@ namespace CareerCloud.EntityFrameworkDataAccess
 {
     class CareerCloudContext : DbContext
     {
-        public CareerCloudContext(bool createProxy = true) : 
-            base(@"Data Source=DESKTOP-GOTQAP5\HUMBERBRIDGING;Initial Catalog=JOB_PORTAL_DB;Integrated Security=True;")
+        public CareerCloudContext(bool createProxy = true) :
+            base(ConfigurationManager.ConnectionStrings["dbconnection"].ConnectionString)
         {
             Configuration.ProxyCreationEnabled = createProxy;
             //Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
@@ -61,23 +62,23 @@ namespace CareerCloud.EntityFrameworkDataAccess
 
         public DbSet<ApplicantEducationPoco> ApplicantEducations { get; set; }
         public DbSet<ApplicantJobApplicationPoco> ApplicantJobApplications { get; set; }
-        public DbSet<ApplicantProfilePoco> ApplicantProfiles  { get; set; }
-        public DbSet<ApplicantResumePoco> ApplicantResumes  { get; set; }
+        public DbSet<ApplicantProfilePoco> ApplicantProfiles { get; set; }
+        public DbSet<ApplicantResumePoco> ApplicantResumes { get; set; }
         public DbSet<ApplicantSkillPoco> ApplicantSkills { get; set; }
-        public DbSet<ApplicantWorkHistoryPoco> ApplicantWorkHistories  { get; set; }
-        public DbSet<CompanyDescriptionPoco> CompanyDescriptions  { get; set; }
-        public DbSet<CompanyJobDescriptionPoco> CompanyJobDescriptions  { get; set; }
-        public DbSet<CompanyJobEducationPoco> CompanyJobEducations  { get; set; }
-        public DbSet<CompanyJobPoco> CompanyJobs  { get; set; }
-        public DbSet<CompanyJobSkillPoco> CompanyJobSkills  { get; set; }
-        public DbSet<CompanyLocationPoco> CompanyLocations  { get; set; }
-        public DbSet<CompanyProfilePoco> CompanyProfiles  { get; set; }
-        public DbSet<SecurityLoginsLogPoco> SecurityLoginsLogs  { get; set; }
-        public DbSet<SecurityLoginPoco> SecurityLogins  { get; set; }
-        public DbSet<SecurityLoginsRolePoco> SecurityLoginsRoles  { get; set; }
-        public DbSet<SecurityRolePoco> SecurityRoles  { get; set; }
-        public DbSet<SystemCountryCodePoco> SystemCountryCodes  { get; set; }
-        public DbSet<SystemLanguageCodePoco> SystemLanguageCodes  { get; set; }
+        public DbSet<ApplicantWorkHistoryPoco> ApplicantWorkHistories { get; set; }
+        public DbSet<CompanyDescriptionPoco> CompanyDescriptions { get; set; }
+        public DbSet<CompanyJobDescriptionPoco> CompanyJobDescriptions { get; set; }
+        public DbSet<CompanyJobEducationPoco> CompanyJobEducations { get; set; }
+        public DbSet<CompanyJobPoco> CompanyJobs { get; set; }
+        public DbSet<CompanyJobSkillPoco> CompanyJobSkills { get; set; }
+        public DbSet<CompanyLocationPoco> CompanyLocations { get; set; }
+        public DbSet<CompanyProfilePoco> CompanyProfiles { get; set; }
+        public DbSet<SecurityLoginsLogPoco> SecurityLoginsLogs { get; set; }
+        public DbSet<SecurityLoginPoco> SecurityLogins { get; set; }
+        public DbSet<SecurityLoginsRolePoco> SecurityLoginsRoles { get; set; }
+        public DbSet<SecurityRolePoco> SecurityRoles { get; set; }
+        public DbSet<SystemCountryCodePoco> SystemCountryCodes { get; set; }
+        public DbSet<SystemLanguageCodePoco> SystemLanguageCodes { get; set; }
 
-        }
     }
+}

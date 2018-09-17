@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CareerCloud.EntityFrameworkDataAccess
 {
-   public class EFGenericRepository<T> : IDataRepository<T> where T: class
+    public class EFGenericRepository<T> : IDataRepository<T> where T : class
     {
         private CareerCloudContext _context;
 
@@ -22,7 +22,7 @@ namespace CareerCloud.EntityFrameworkDataAccess
 
         public void Add(params T[] items)
         {
-           foreach (T item in items)
+            foreach (T item in items)
             {
                 _context.Entry(item).State = EntityState.Added;
             }
@@ -53,13 +53,13 @@ namespace CareerCloud.EntityFrameworkDataAccess
 
         public void CallStoredProc(string name, params Tuple<string, string>[] parameters)
         {
-           
+
         }
 
         public IList<T> GetAll(params Expression<Func<T, object>>[] navigationProperties)
         {
             IQueryable<T> dbQuery = _context.Set<T>();
-            foreach (Expression<Func<T,object>> navProp in navigationProperties)
+            foreach (Expression<Func<T, object>> navProp in navigationProperties)
             {
                 dbQuery = dbQuery.Include<T, object>(navProp);
             }
@@ -74,8 +74,7 @@ namespace CareerCloud.EntityFrameworkDataAccess
             {
                 dbQuery = dbQuery.Include<T, object>(navProp);
             }
-
-            return dbQuery.Where(where).ToList();
+            return dbQuery.Where(where).ToList<T>();
         }
 
         public T GetSingle(Expression<Func<T, bool>> where, params Expression<Func<T, object>>[] navigationProperties)
@@ -108,3 +107,4 @@ namespace CareerCloud.EntityFrameworkDataAccess
         }
     }
 }
+

@@ -34,14 +34,15 @@ namespace CareerCloud.BusinessLogicLayer
         {
             List<ValidationException> exceptions = new List<ValidationException>();
             {
-                string[] arr = new string[] {".ca",".com",".biz"};
+                string[] arr = new string[] { ".ca", ".com", ".biz" };
                 foreach (CompanyProfilePoco poco in pocos)
                 {
-                    foreach(string s in arr)
+                    foreach (string s in arr)
                     {
-                        if((string.IsNullOrEmpty(poco.CompanyWebsite)) || (!poco.CompanyWebsite.EndsWith(s)))
-                            
-                        exceptions.Add(new ValidationException(600, $"Valid websites must end with the following extensions – \".ca\" , \".com\", \".biz\" - {poco.Id}"));
+                        if (!(poco.CompanyWebsite.ToLower().EndsWith(".ca") ||
+                                           poco.CompanyWebsite.ToLower().EndsWith(".com") ||
+                                           poco.CompanyWebsite.ToLower().EndsWith(".biz")))
+                            exceptions.Add(new ValidationException(600, $"Valid websites must end with the following extensions – \".ca\" , \".com\", \".biz\" - {poco.Id}"));
                     }
                     if (string.IsNullOrEmpty(poco.ContactPhone))
                     {
