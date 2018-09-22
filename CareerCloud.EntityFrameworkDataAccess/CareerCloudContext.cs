@@ -13,7 +13,7 @@ namespace CareerCloud.EntityFrameworkDataAccess
     class CareerCloudContext : DbContext
     {
         public CareerCloudContext(bool createProxy = true) :
-            base(ConfigurationManager.ConnectionStrings["dbconnection"].ConnectionString)
+            base(@"Data Source=DESKTOP-GOTQAP5\HUMBERBRIDGING;Initial Catalog=JOB_PORTAL_DB;Integrated Security=True;")
         {
             Configuration.ProxyCreationEnabled = createProxy;
             //Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
